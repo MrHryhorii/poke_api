@@ -8,6 +8,23 @@ body {
     font-family: sans-serif;
     background: #f4f4f4;
     padding: 1rem;
+
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+}
+
+main{
+    margin-top: 1rem;
+    flex-grow: 1;
+}
+
+footer{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }
 
 h1 {
@@ -18,7 +35,8 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 1rem;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .card {
@@ -26,6 +44,7 @@ h1 {
     padding: 1rem;
     border-radius: 8px;
     width: 150px;
+    height: 150px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
