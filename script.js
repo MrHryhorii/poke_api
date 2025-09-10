@@ -167,7 +167,7 @@ const createWindow = (p) => {
 // helper to render
 const renderWindow = (pokemon) => {
     return `
-        <div class="modal-content">
+        <div class="modal-content" style="background-image: url(${pokemon.sprites.front_default}); background-repeat: no-repeat; background-position: right center;">
             <ul>
                 <li><b>ID:</b> ${pokemon.id}</li>
                 <li><b>Name:</b> ${pokemon.name}</li>
