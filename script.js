@@ -46,7 +46,7 @@ async function fetchPokemons(path) {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <h3>${pokeData.name}</h3>
+                <h3>${capitalizeFirstLetter(pokeData.name)}</h3>
                 <img src="${pokeData.sprites.front_default}" alt="${pokeData.name}">
             `;
             card.onclick = function() {createWindow(pokeData)};
@@ -84,7 +84,7 @@ async function fetchByName(name) {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-            <h3>${data.name}</h3>
+            <h3>${capitalizeFirstLetter(data.name)}</h3>
             <img src="${data.sprites.front_default}" alt="${data.name}">
         `;
         card.onclick = function() {createWindow(data)};
@@ -170,7 +170,7 @@ const renderWindow = (pokemon) => {
         <div class="modal-content" style="background-image: url(${pokemon.sprites.front_default}); background-repeat: no-repeat; background-position: right center;">
             <ul>
                 <li><b>ID:</b> ${pokemon.id}</li>
-                <li><b>Name:</b> ${pokemon.name}</li>
+                <li><b>Name:</b> ${capitalizeFirstLetter(pokemon.name)}</li>
                 <li><b>Base Experience:</b> ${pokemon.base_experience}</li>
                 <li><b>Height:</b> ${pokemon.height}</li>
                 <li><b>Weight:</b> ${pokemon.weight}</li>
@@ -180,4 +180,12 @@ const renderWindow = (pokemon) => {
             <button id="close-modal">Close</button>
         </div>
         `;
+}
+
+//
+const capitalizeFirstLetter = (str) => {
+    if (typeof str !== 'string' || str.length === 0) {
+        return str;
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
