@@ -49,6 +49,7 @@ async function fetchPokemons(path) {
                 <h3>${pokeData.name}</h3>
                 <img src="${pokeData.sprites.front_default}" alt="${pokeData.name}">
             `;
+            card.onclick = function() {createWindow(pokeData)};
             container.appendChild(card);
         });
 
@@ -79,11 +80,15 @@ async function fetchByName(name) {
         }
         const data = await res.json();
 
-        container.innerHTML = `
-        <div class="card">
+        container.innerHTML = ``;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
             <h3>${data.name}</h3>
             <img src="${data.sprites.front_default}" alt="${data.name}">
-        </div>`;
+        `;
+        card.onclick = function() {createWindow(data)};
+        container.appendChild(card);
 
     } catch (err) {
         container.innerHTML = `<p>Error loading Pokémon</p>`;
@@ -136,3 +141,39 @@ const updatePageButtons = (show) => {
         pageNumber.style.display = "none";
     };
 };
+
+// modal window
+const modal = document.createElement("div");
+modal.id = "modal";
+modal.className = "modal";
+modal.style.display = "none";
+modal.style.zIndex = "1000";
+
+document.body.appendChild(modal);
+
+// function to create modal window
+const createWindow = (p) => {
+    modal.innerHTML = renderWindow(p);
+    modal.style.display = "flex";
+
+    document.getElementById("close-modal").onclick = () => {
+        modal.style.display = "none";
+    };
+};
+// helper to render
+const renderWindow = (pokemon) => {
+    return `
+        <div class="modal-content">
+            <ul>
+                <li><b>ID:</b> ${pokemon.id}</li>
+                <li><b>Name:</b> ${pokemon.name}</li>
+                <li><b>Base Experience:</b> ${pokemon.base_experience}</li>
+                <li><b>Height:</b> ${pokemon.height}</li>
+                <li><b>Weight:</b> ${pokemon.weight}</li>
+                <li><b>Default:</b> ${pokemon.is_default ? "Yes" : "No"}</li>
+                <li><b>Order:</b> ${pokemon.order}</li>
+            </ul>
+            <button id="close-modal">Close</button>
+        </div>
+        `;
+}
