@@ -157,7 +157,11 @@ const createWindow = (p) => {
     modal.style.display = "flex";
 
     document.getElementById("close-modal").onclick = () => {
-        modal.style.display = "none";
+        modal.classList.add('hide');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('hide');
+        }, 500);
     };
 };
 // helper to render
