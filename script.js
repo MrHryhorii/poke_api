@@ -60,7 +60,7 @@ async function fetchPokemons(path) {
         updatePageButtons(true);
 
     } catch (err) {
-        
+
         if (id !== requestId) return; // ignore outdated errors
 
         container.innerHTML = `<p>Error loading Pokémon</p>`;
@@ -97,7 +97,8 @@ btn.addEventListener('click', () => {
     if (value) 
         fetchByName(value);
     else 
-        fetchPokemons();
+        fetchPokemons(null);
+        page = 1;
 });
 
 // initial load
