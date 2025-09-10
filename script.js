@@ -10,6 +10,7 @@ const search = document.getElementById('search');
 
 const btnPrev = document.getElementById('prev');
 const btnNext = document.getElementById('next');
+const pageNumber = document.getElementById('current');
 
 // data storage
 let basePath = "https://pokeapi.co/api/v2/pokemon?limit=10";
@@ -18,11 +19,19 @@ let next = null;
 
 let page = 1;
 
+// counter of requests
+let requestId = 0;
+
 // fetch list of pokemons
 async function fetchPokemons(path) {
+    const id = ++requestId; // assign unique id to this request
+
     try {
         const res = await fetch(path || basePath);
         const data = await res.json();
+
+        // if another request was started later, ignore this result
+        if (id !== requestId) return;
 
         // clean content
         container.innerHTML = '';
@@ -30,6 +39,9 @@ async function fetchPokemons(path) {
         data.results.forEach(async (p) => {
             const pokeRes = await fetch(p.url); // endpoint per pokemon
             const pokeData = await pokeRes.json();
+
+            // again, check before rendering
+            if (id !== requestId) return;
 
             const card = document.createElement('div');
             card.className = 'card';
@@ -39,12 +51,18 @@ async function fetchPokemons(path) {
             `;
             container.appendChild(card);
         });
+
+        if (id !== requestId) return;
+
         // update page buttons
         previous = data.previous;
         next = data.next;
         updatePageButtons(true);
 
     } catch (err) {
+        
+        if (id !== requestId) return; // ignore outdated errors
+
         container.innerHTML = `<p>Error loading Pokémon</p>`;
         // hide page buttons
         updatePageButtons(false);
@@ -90,15 +108,30 @@ const updatePageButtons = (show) => {
     btnPrev.disabled = !previous;
     btnNext.disabled = !next;
 
-    btnPrev.onclick = () => previous && fetchPokemons(previous);
-    btnNext.onclick = () => next && fetchPokemons(next);
+    btnPrev.onclick = function() {
+        if (previous) {
+            page--;
+            fetchPokemons(previous);
+        }
+    };
+
+    btnNext.onclick = function() {
+        if (next) {
+            page++;
+            fetchPokemons(next);
+        }
+    };
+
+    pageNumber.innerHTML = page;
 
     // show or hide page buttons
     if(show){
         btnPrev.style.display = "block";
         btnNext.style.display = "block";
+        pageNumber.style.display = "block";
     }else{
         btnPrev.style.display = "none";
         btnNext.style.display = "none";
+        pageNumber.style.display = "none";
     };
 };
