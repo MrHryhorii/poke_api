@@ -26,6 +26,9 @@ let requestId = 0;
 async function fetchPokemons(path) {
     const id = ++requestId; // assign unique id to this request
 
+    // loader
+    container.innerHTML = '<div class="loader"></div>';
+
     try {
         const res = await fetch(path || basePath);
         const data = await res.json();
@@ -72,6 +75,10 @@ async function fetchPokemons(path) {
 
 // fetch by search param
 async function fetchByName(name) {
+
+    // loader
+    container.innerHTML = '<div class="loader"></div>';
+    
     try {
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
         if (!res.ok) {
@@ -176,6 +183,8 @@ const renderWindow = (pokemon) => {
                 <li><b>Weight:</b> ${pokemon.weight}</li>
                 <li><b>Default:</b> ${pokemon.is_default ? "Yes" : "No"}</li>
                 <li><b>Order:</b> ${pokemon.order}</li>
+                <li><b>Types:</b> ${pokemon.types.map(t => t.type.name).join(', ')}</li>
+                <li><b>Abilities:</b> ${pokemon.abilities.map(a => a.ability.name).join(', ')}</li>
             </ul>
             <button id="close-modal">Close</button>
         </div>
