@@ -186,7 +186,9 @@ const renderWindow = (pokemon) => {
                 <li><b>Types:</b> ${pokemon.types.map(t => t.type.name).join(', ')}</li>
                 <li><b>Abilities:</b> ${pokemon.abilities.map(a => a.ability.name).join(', ')}</li>
             </ul>
-            <button id="close-modal">Close</button>
+            <div style="display: flex; justify-content: space-between">
+                <button id="close-modal">Close</button>
+            </div>
         </div>
         `;
 }
